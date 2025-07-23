@@ -17,16 +17,13 @@ export class NewsController {
     return this.newsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
+  @Get(":id")
+  findOne(@Param("id", ParseUUIDPipe) id: string) {
     return this.newsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateNewsDto: UpdateNewsDto,
-  ) {
+  @Patch(":id")
+  update(@Param("id", ParseUUIDPipe) id: string, @Body() updateNewsDto: UpdateNewsDto) {
     return this.newsService.update(id, updateNewsDto);
   }
 
