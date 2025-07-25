@@ -1,6 +1,6 @@
 # API Adopteros
 
-**Setup:
+**Configurar ambiente de desarrollo:**
 
 Crear el archivo .env a partir de .env.example
 
@@ -27,14 +27,20 @@ Levantar el contenedor
 docker compose up -d
 ```
 
+Ejecutar las migraciones
+
+```sh
+npm run db:migrations
+```
+
+Ejecutar en modo desarrollo. También se creará una instancia de la base de datos.
+
+```sh
+npm run start:dev
+```
+
 Eliminar el contenedor y sus volúmenes
 
 ```sh
 docker compose down -v
-```
-
-Al ejecutar el proyecto en modo desarrollo también se creará una instancia de la base de datos
-
-```sh
-npm run start:dev
 ```
