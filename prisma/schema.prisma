@@ -1,9 +1,147 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  user String @unique
+  password String
+  role Role @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  profile Profile?
+}
+
+model Profile {
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  birthday DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Dogs {
+  id String @id @default(uuid())
+  name String
+  age Int @default(1)
+  time Time
+  sex Sex
+  size Size 
+  health Health
+  personality String
+  story String
+  compatibility Compatibility
+  state Boolean @default(false)
+  gallery Gallery[]
+  news News?
+  adoptions Adoptions?
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Gallery {
+  id String @id @default(uuid())
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  dog Dogs @relation(fields: [dogId], references: [id])
+  dogId String @unique
+}
+
+model News {
+  id String @id @default(uuid())
+  title String
+  description String
+  image_url String
+  type Type
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  dog Dogs? @relation(fields: [dogId], references: [id])
+  dogId String @unique
+}
+
+model Adoptions {
+  id String @id @default(uuid())
+  name String
+  phone String
+  email String
+  isCaba Boolean
+  createdAt DateTime @default(now())
+  dog Dogs? @relation(fields: [dogId], references: [id])
+  dogId String @unique
+}
+
+model Notifications {
+  id String @id @default(uuid())
+  message String
+  opened Boolean @default(false)
+  createdAt DateTime @default(now())
+  origin OriginNotification
+}
+
+model ContactMessages {
+  id String @id @default(uuid())
+  name String
+  email String
+  phone String
+  subject String
+  message String
+  createdAt DateTime @default(now())
+  opened Boolean @default(false)
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum Time {
+  months
+  years
+}
+
+enum Sex {
+  male
+  female
+}
+
+enum Size {
+  small
+  medium
+  larg
+}
+
+enum Health {
+  dewormed
+  castrated
+  vaccinated 
+  treatment
+}
+
+enum Compatibility {
+  solo
+  cats
+  dogs
+  kids
+}
+
+enum Type {
+  campaign
+  event
+  collection 
+  new
+}
+
+enum OriginNotification {
+  adoptions
+  contactMessages
 }
